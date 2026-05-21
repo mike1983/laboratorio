@@ -6,7 +6,7 @@ public class Principal {
         Scanner entrada = new Scanner(System.in);
         int opcion = 0;
 
-        // Bucle principal del menú
+        
         while (opcion != 6) {
             System.out.println("\n========================================");
             System.out.println("    SISTEMA DE GESTIÓN DEL PARQUE");
@@ -20,13 +20,13 @@ public class Principal {
             System.out.println("========================================");
             System.out.print("Seleccione una opción (1-6): ");
 
-            // Validar que el usuario ingrese un número entero
+
             if (entrada.hasNextInt()) {
                 opcion = entrada.nextInt();
-                entrada.nextLine(); // Limpiar el búfer de entrada (consumir el salto de línea)
-                System.out.println(); // Espacio en blanco por estética
+                entrada.nextLine();
+                System.out.println();
 
-                // Evaluar la opción seleccionada
+
                 switch (opcion) {
                     case 1:
                         menuRegistroDinosaurios(entrada);
@@ -58,23 +58,19 @@ public class Principal {
         entrada.close();
     }
 
-    // =========================================================================
-    // MÉTODOS MOCK (Marcadores de posición para la lógica de cada módulo)
-    // =========================================================================
-
     private static void menuRegistroDinosaurios(Scanner entrada) {
         System.out.println("--- REGISTRO DE DINOSAURIOS ---");
         System.out.println("[1] Dar de alta nuevo espécimen");
         System.out.println("[2] Consultar catálogo de especies");
         System.out.print("Seleccione una sub-opción: ");
-        // Aquí puedes agregar la lógica o la llamada a los controladores
+
         entrada.nextLine();
     }
 
     private static void menuControlAlimentacion(Scanner entrada) {
         System.out.println("--- CONTROL DE ALIMENTACIÓN Y ESTADO ---");
         System.out.println("Monitoreando niveles de hambre y salud de los recintos...");
-        // Espacio para la lógica de sensores o bitácoras médicas
+
     }
 
     private static void menuGestionVisitantes(Scanner entrada) {
