@@ -120,10 +120,42 @@ public class Principal {
         System.out.println("--- TURNO DE ALIMENTACIÓN FINALIZADO ---");
         entrada.nextLine();
     }
-
+    private static void presionarEnterParaContinuar(Scanner scanner) {
+        System.out.println("\nPresione ENTER para regresar al menu...");
+        scanner.nextLine();
+    }
     private static void menuGestionVisitantes(Scanner entrada) {
         System.out.println("--- GESTIÓN DE VISITANTES ---");
-        System.out.println("Gestion de actividades de los turistas...");
+        boolean salir = false;
+        VisitanteRepository clienteRepo = new JsonVisitanteRepository("visitantes.json");
+        GestionVisitantesService servicioGestion = new GestionVisitantesService(clienteRepo);
+        while (!salir) {
+            System.out.println("1. Buscar un visitante");
+            System.out.println("2. Generar reporte de ocupacion");
+            System.out.println("0. Salir del sistema");
+            String eleccion =entrada.nextLine();
+            switch (eleccion) {
+                case "1":
+                    System.out.println("Ingrese el id del visitante a consultar");
+                    String idboleto=entrada.nextLine();
+                    servicioGestion.verificarAcceso(idboleto);
+                    break;
+                case "2":
+                    servicioGestion.generarReporteOcupacion();
+                    break;
+                case "0":
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("\n[ERROR] Opcion no valida. Por favor, intente de nuevo.");
+                    presionarEnterParaContinuar(entrada);
+                    break;
+            }
+
+
+        }
+
+
 
     }
 
