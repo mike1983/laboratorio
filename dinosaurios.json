@@ -1,0 +1,5 @@
+
+
+{"id": "DINO-00001", "nombre": "cuernos", "especie": "triceratops", "edad": 12, "esCarnivoro": false}
+{"id": "DINO-00002", "nombre": "muelas", "especie": "brachiosaurus", "edad": 23, "esCarnivoro": false}
+{"id": "DINO-00003", "nombre": "velociraptor", "especie": "raptor", "edad": 12, "esCarnivoro": true}
