@@ -8,6 +8,10 @@ public class Principal {
 
 
         while (opcion != 6) {
+
+            ConfiguracionEmergenciaLoader configLoader = new PropertiesEmergenciaLoader("emergencias.properties");
+            AlertaNotificador notificadorConsola = new ConsolaAlertaNotificador();
+            SistemaContingenciasService sistemaEmergencias = new SistemaContingenciasService(notificadorConsola, configLoader);
             System.out.println("\n========================================");
             System.out.println("    SISTEMA DE GESTIÓN DEL PARQUE JURASICO");
             System.out.println("========================================");
@@ -53,6 +57,8 @@ public class Principal {
                 System.out.println("\n[Error] Debe ingresar un número válido.");
                 entrada.nextLine(); // Limpiar el búfer si el usuario ingresó letras
             }
+            sistemaEmergencias.evaluarProbabilidadEmergencia();
+
         }
 
         entrada.close();
