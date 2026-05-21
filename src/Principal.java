@@ -9,7 +9,7 @@ public class Principal {
 
         while (opcion != 6) {
             System.out.println("\n========================================");
-            System.out.println("    SISTEMA DE GESTIÓN DEL PARQUE");
+            System.out.println("    SISTEMA DE GESTIÓN DEL PARQUE JURASICO");
             System.out.println("========================================");
             System.out.println("1. Registro de dinosaurios");
             System.out.println("2. Control de alimentación y estado");
@@ -60,11 +60,34 @@ public class Principal {
 
     private static void menuRegistroDinosaurios(Scanner entrada) {
         System.out.println("--- REGISTRO DE DINOSAURIOS ---");
-        System.out.println("[1] Dar de alta nuevo espécimen");
-        System.out.println("[2] Consultar catálogo de especies");
-        System.out.print("Seleccione una sub-opción: ");
-
-        entrada.nextLine();
+        DinosaurioRepository dinoRepo = new JsonDinosaurioRepository("dinosaurios.json");
+        RecintoAsignador seguridad = new ControlSeguridadRecinto();
+        IdGenerator idDinosaurios = new SecuencialIdGenerator("DINO");
+        RegistroDinosaurioService servicioDinos = new RegistroDinosaurioService(dinoRepo, seguridad, idDinosaurios);
+        int opc=1,alimentacion=1;
+        String nombre="";
+        String especie="";
+        int edad=0;
+        boolean carniboro=false;
+        while(opc!=2)
+        {
+            System.out.println("Ingrese el nombre del dinosaurio");
+            nombre=entrada.nextLine();
+            System.out.println("Ingrese la especie del dinosario");
+            nombre=entrada.nextLine();
+            System.out.println("Ingrese la edad del dinosaurio");
+            edad=entrada.nextInt();
+            System.out.println("Es carniboro 1:si, 2:no");
+            alimentacion=entrada.nextInt();
+            if (alimentacion==1)
+                carniboro=true;
+            entrada.nextLine();
+            servicioDinos.registrarDinosaurio(nombre, especie, edad, carniboro);
+            System.out.println("Desea ingresar otro dinosaurio 1:Si 2:No");
+            opc =entrada.nextInt();
+            entrada.nextLine();
+            System.out.println();
+        }
     }
 
     private static void menuControlAlimentacion(Scanner entrada) {
