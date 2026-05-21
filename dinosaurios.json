@@ -1,2 +1,3 @@
-{"id": "DINO-00001", "nombre": "12", "especie": "", "edad": 32, "esCarnivoro": false}
-{"id": "DINO-00001", "nombre": "triceratops", "especie": "", "edad": 34, "esCarnivoro": false}
+
+{"id": "DINO-00001", "nombre": "tiranosaurio rex", "especie": "", "edad": 56, "esCarnivoro": true}
+{"id": "DINO-00002", "nombre": "triceratops", "especie": "", "edad": 34, "esCarnivoro": true}

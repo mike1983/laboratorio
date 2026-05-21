@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+import java.util.List;
 public class Principal {
     public static  void main (String[] args)
     {
@@ -92,8 +92,33 @@ public class Principal {
 
     private static void menuControlAlimentacion(Scanner entrada) {
         System.out.println("--- CONTROL DE ALIMENTACIÓN Y ESTADO ---");
-        System.out.println("Monitoreando niveles de hambre y salud de los recintos...");
+        System.out.println("Monitoreando niveles de hambre...");
+        DinosaurioRepository dinoRepo = new JsonDinosaurioRepository("dinosaurios.json");
+        AlimentacionRepository alimentacionRepo = new JsonAlimentacionRepository("historial_alimentacion.json");
+        DietaCalculadora dietaCalc = new ParqueDietaCalculadora();
+        IdGenerator generadorIdsAlimento = new SecuencialIdGenerator("FEED");
+        ControlAlimentacionService servicioNutricion = new ControlAlimentacionService(
+                alimentacionRepo,
+                dinoRepo,
+                dietaCalc,
+                generadorIdsAlimento
+        );
+        System.out.println("--- INICIANDO ESCANEO AUTOMÁTICO DE RECINTOS ---");
 
+        // 4. Leer todos los IDs almacenados físicamente en el JSON
+        List<String> idsDinosaurios = dinoRepo.obtenerTodosLosIds();
+
+        System.out.println(String.format("Se detectaron %d dinosaurios registrados.\n", idsDinosaurios.size()));
+
+        // 5. Iterar la lista de IDs para ejecutar el metodo de alimentación
+        for (String id : idsDinosaurios) {
+            System.out.println("Procesando identificador: " + id);
+            servicioNutricion.alimentarDinosaurioPorId(id);
+            System.out.println(); // Salto de línea para dar formato a la consola
+        }
+
+        System.out.println("--- TURNO DE ALIMENTACIÓN FINALIZADO ---");
+        entrada.nextLine();
     }
 
     private static void menuGestionVisitantes(Scanner entrada) {

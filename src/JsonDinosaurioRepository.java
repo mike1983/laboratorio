@@ -1,6 +1,12 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 public class JsonDinosaurioRepository implements DinosaurioRepository {
     private final String rutaArchivo;
 
@@ -17,12 +23,62 @@ public class JsonDinosaurioRepository implements DinosaurioRepository {
 
         try (FileWriter fw = new FileWriter(rutaArchivo, true);
              PrintWriter out = new PrintWriter(fw)) {
-
             out.println(jsonString);
-            System.out.println("[JSON Dino] Historial actualizado en " + rutaArchivo);
-
         } catch (IOException e) {
-            System.err.println("[Error] No se pudo registrar al dinosaurio: " + e.getMessage());
+            System.err.println("[Error] No se pudo registrar: " + e.getMessage());
         }
+    }
+
+    @Override
+    public Dinosaurio buscarPorId(String id) {
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                // Verificamos si esta línea del JSON contiene el ID que buscamos
+                if (linea.contains("\"id\": \"" + id + "\"")) {
+                    return parsearDinosaurio(linea);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("[Error] No se pudo leer el archivo JSON: " + e.getMessage());
+        }
+        return null;
+    }
+    @Override
+    public List<String> obtenerTodosLosIds() {
+        List<String> listaIds = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String id = extraerValor(linea, "\"id\": \"(.*?)\"");
+                if (!id.isEmpty()) {
+                    listaIds.add(id);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("[Error] No se pudo leer la lista de dinosaurios: " + e.getMessage());
+        }
+
+        return listaIds;
+    }
+    // Metodo auxiliar con Expresiones Regulares para extraer los valores del texto JSON
+    private Dinosaurio parsearDinosaurio(String json) {
+        String id = extraerValor(json, "\"id\": \"(.*?)\"");
+        String nombre = extraerValor(json, "\"nombre\": \"(.*?)\"");
+        String especie = extraerValor(json, "\"especie\": \"(.*?)\"");
+        int edad = Integer.parseInt(extraerValor(json, "\"edad\": (\\d+)"));
+        boolean esCarnivoro = Boolean.parseBoolean(extraerValor(json, "\"esCarnivoro\": (true|false)"));
+
+        return new Dinosaurio(id, nombre, especie, edad, esCarnivoro);
+    }
+
+    private String extraerValor(String texto, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(texto);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
     }
 }
