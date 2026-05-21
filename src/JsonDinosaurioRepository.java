@@ -62,6 +62,21 @@ public class JsonDinosaurioRepository implements DinosaurioRepository {
 
         return listaIds;
     }
+    @Override
+    public List<Dinosaurio> obtenerTodos() {
+        List<Dinosaurio> lista = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    lista.add(parsearDinosaurio(linea)); // Reutiliza el parseador que ya programamos
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("[Error] No se pudo leer la lista de dinosaurios: " + e.getMessage());
+        }
+        return lista;
+    }
     // Metodo auxiliar con Expresiones Regulares para extraer los valores del texto JSON
     private Dinosaurio parsearDinosaurio(String json) {
         String id = extraerValor(json, "\"id\": \"(.*?)\"");

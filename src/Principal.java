@@ -74,7 +74,7 @@ public class Principal {
             System.out.println("Ingrese el nombre del dinosaurio");
             nombre=entrada.nextLine();
             System.out.println("Ingrese la especie del dinosario");
-            nombre=entrada.nextLine();
+            especie=entrada.nextLine();
             System.out.println("Ingrese la edad del dinosaurio");
             edad=entrada.nextInt();
             System.out.println("Es carniboro 1:si, 2:no");
@@ -186,7 +186,10 @@ public class Principal {
 
     private static void menuReportes(Scanner entrada) {
         System.out.println("--- REPORTES GENERALES ---");
-        System.out.println("Generando balance de incidentes, ingresos y estado del parque...");
+        DinosaurioRepository dinoRepo = new JsonDinosaurioRepository("dinosaurios.json");
+        ReporteDinosauriosPrinter reportePrinter = new ReporteDinosauriosPrinter(dinoRepo);
+        reportePrinter.imprimirReporteConsola();
+        presionarEnterParaContinuar(entrada);
     }
 
 }
