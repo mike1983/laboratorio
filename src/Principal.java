@@ -1,0 +1,95 @@
+import java.util.Scanner;
+
+public class Principal {
+    public static  void main (String[] args)
+    {
+        Scanner entrada = new Scanner(System.in);
+        int opcion = 0;
+
+        // Bucle principal del menú
+        while (opcion != 6) {
+            System.out.println("\n========================================");
+            System.out.println("    SISTEMA DE GESTIÓN DEL PARQUE");
+            System.out.println("========================================");
+            System.out.println("1. Registro de dinosaurios");
+            System.out.println("2. Control de alimentación y estado");
+            System.out.println("3. Gestión de visitantes");
+            System.out.println("4. Venta de entradas");
+            System.out.println("5. Reportes");
+            System.out.println("6. Salir");
+            System.out.println("========================================");
+            System.out.print("Seleccione una opción (1-6): ");
+
+            // Validar que el usuario ingrese un número entero
+            if (entrada.hasNextInt()) {
+                opcion = entrada.nextInt();
+                entrada.nextLine(); // Limpiar el búfer de entrada (consumir el salto de línea)
+                System.out.println(); // Espacio en blanco por estética
+
+                // Evaluar la opción seleccionada
+                switch (opcion) {
+                    case 1:
+                        menuRegistroDinosaurios(entrada);
+                        break;
+                    case 2:
+                        menuControlAlimentacion(entrada);
+                        break;
+                    case 3:
+                        menuGestionVisitantes(entrada);
+                        break;
+                    case 4:
+                        menuVentaEntradas(entrada);
+                        break;
+                    case 5:
+                        menuReportes(entrada);
+                        break;
+                    case 6:
+                        System.out.println("Cerrando el sistema... ¡Buen día, guardián del parque!");
+                        break;
+                    default:
+                        System.out.println("Opción no válida. Por favor, elija un número entre 1 y 6.");
+                }
+            } else {
+                System.out.println("\n[Error] Debe ingresar un número válido.");
+                entrada.nextLine(); // Limpiar el búfer si el usuario ingresó letras
+            }
+        }
+
+        entrada.close();
+    }
+
+    // =========================================================================
+    // MÉTODOS MOCK (Marcadores de posición para la lógica de cada módulo)
+    // =========================================================================
+
+    private static void menuRegistroDinosaurios(Scanner entrada) {
+        System.out.println("--- REGISTRO DE DINOSAURIOS ---");
+        System.out.println("[1] Dar de alta nuevo espécimen");
+        System.out.println("[2] Consultar catálogo de especies");
+        System.out.print("Seleccione una sub-opción: ");
+        // Aquí puedes agregar la lógica o la llamada a los controladores
+        entrada.nextLine();
+    }
+
+    private static void menuControlAlimentacion(Scanner entrada) {
+        System.out.println("--- CONTROL DE ALIMENTACIÓN Y ESTADO ---");
+        System.out.println("Monitoreando niveles de hambre y salud de los recintos...");
+        // Espacio para la lógica de sensores o bitácoras médicas
+    }
+
+    private static void menuGestionVisitantes(Scanner entrada) {
+        System.out.println("--- GESTIÓN DE VISITANTES ---");
+        System.out.println("Control de aforo en zonas de alto riesgo y áreas comunes.");
+    }
+
+    private static void menuVentaEntradas(Scanner entrada) {
+        System.out.println("--- VENTA DE ENTRADAS ---");
+        System.out.println("Procesando nueva venta de boletos...");
+    }
+
+    private static void menuReportes(Scanner entrada) {
+        System.out.println("--- REPORTES GENERALES ---");
+        System.out.println("Generando balance de incidentes, ingresos y estado del parque...");
+    }
+
+}
