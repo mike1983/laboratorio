@@ -6,7 +6,7 @@ public class Principal {
         Scanner entrada = new Scanner(System.in);
         int opcion = 0;
 
-        
+
         while (opcion != 6) {
             System.out.println("\n========================================");
             System.out.println("    SISTEMA DE GESTIÓN DEL PARQUE");
@@ -75,12 +75,33 @@ public class Principal {
 
     private static void menuGestionVisitantes(Scanner entrada) {
         System.out.println("--- GESTIÓN DE VISITANTES ---");
-        System.out.println("Control de aforo en zonas de alto riesgo y áreas comunes.");
+        System.out.println("Gestion de actividades de los turistas...");
+
     }
 
     private static void menuVentaEntradas(Scanner entrada) {
         System.out.println("--- VENTA DE ENTRADAS ---");
         System.out.println("Procesando nueva venta de boletos...");
+        VisitanteRepository repository = new JsonVisitanteRepository("visitantes.json");
+        TarifaCalculadora calculadora = new ParqueTarifaCalculadora();
+        IdGenerator generadorIds = new SecuencialIdGenerator("PARQ");
+        RegistroParqueService servicioParque = new RegistroParqueService(repository, calculadora, generadorIds);
+        int opc=1;
+        String nombre="";
+        int edad=0;
+        while(opc!=2)
+        {
+            System.out.println("Ingrese el nombre del visitante");
+            nombre=entrada.nextLine();
+            System.out.println("Ingrese la edad del visitante");
+            edad=entrada.nextInt();
+            servicioParque.registrarIngreso(nombre, edad);
+            entrada.nextLine();
+            System.out.println("Desea ingresar otro visitante 1:Si 2:No");
+            opc =entrada.nextInt();
+            entrada.nextLine();
+            System.out.println();
+        }
     }
 
     private static void menuReportes(Scanner entrada) {
