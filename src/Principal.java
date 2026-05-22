@@ -10,8 +10,15 @@ public class Principal {
         while (opcion != 6) {
 
             ConfiguracionEmergenciaLoader configLoader = new PropertiesEmergenciaLoader("emergencias.properties");
-            AlertaNotificador notificadorConsola = new ConsolaAlertaNotificador();
-            SistemaContingenciasService sistemaEmergencias = new SistemaContingenciasService(notificadorConsola, configLoader);
+            // 2. Construimos los canales de respuesta ante emergencias
+            AlertaNotificador alertaConsola = new ConsolaAlertaNotificador();
+            AlertaNotificador alertaJson = new JsonAlertaNotificador("historial_emergencias.json");
+            CompositeAlertaNotificador sistemaAlarmasGlobal = new CompositeAlertaNotificador();
+            sistemaAlarmasGlobal.agregarNotificador(alertaConsola);  // Muestra en pantalla
+            sistemaAlarmasGlobal.agregarNotificador(alertaJson);// Guarda en disco
+            SistemaContingenciasService servicioEmergencias = new SistemaContingenciasService(sistemaAlarmasGlobal, configLoader);
+           // AlertaNotificador notificadorConsola = new ConsolaAlertaNotificador();
+           // SistemaContingenciasService sistemaEmergencias = new SistemaContingenciasService(notificadorConsola, configLoader);
             System.out.println("\n========================================");
             System.out.println("    SISTEMA DE GESTIÓN DEL PARQUE JURASICO");
             System.out.println("========================================");
@@ -57,7 +64,8 @@ public class Principal {
                 System.out.println("\n[Error] Debe ingresar un número válido.");
                 entrada.nextLine(); // Limpiar el búfer si el usuario ingresó letras
             }
-            sistemaEmergencias.evaluarProbabilidadEmergencia();
+          //  sistemaEmergencias.evaluarProbabilidadEmergencia();
+              servicioEmergencias.evaluarProbabilidadEmergencia();
 
         }
 
